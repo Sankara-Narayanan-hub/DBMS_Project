@@ -1,0 +1,27 @@
+{% extends "Home.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+{% block content %}
+<h2 align="center">Sign Up</h2>
+<form action="http://127.0.0.1:5000/signup" method="post">
+    <div class="form-group">
+        <p>Enter Email: <input type="text" class="form-control" name="email" placeholder="Enter Email"></p>
+        <p>Enter password: <input type="text" class="form-control" name="password" placeholder="Enter Password"></p>
+        <p>Confirm password: <input type="text" class="form-control" name="pwd2" placeholder="Confirm Password"></p>
+        <p><input type="submit" class="btn btn-primary" value="submit"></p>
+    </div>
+</form>
+{% with messages = get_flashed_messages() %}
+   {% if messages %}
+      {% for message in messages %}
+         {{ message }}
+      {% endfor %}
+   {% endif %}
+{% endwith %}
+<p><a href="/login">Already have an account?</a></p>
+{% endblock %}
+</html>

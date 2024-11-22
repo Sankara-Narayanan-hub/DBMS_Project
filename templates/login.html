@@ -1,0 +1,20 @@
+{% extends "Home.html" %}
+
+{% block content %}
+<h2 align="center">LOGIN</h2>
+<form action="http://127.0.0.1:5000/login" method="post">
+    <div class="form-group">
+        <p>Enter Email: <input type="email" class="form-control" name="email" placeholder="Enter Email"></p>
+        <p>Enter Password: <input type="password" class="form-control" name="password" placeholder="Enter Password"></p>
+        <p><input type="submit" class="btn btn-primary" value="Submit"></p>
+    </div>
+</form>
+<br>
+{% with messages = get_flashed_messages() %}
+   {% if messages %}
+      {% for message in messages %}
+         <div class="alert alert-info">{{ message }}</div>
+      {% endfor %}
+   {% endif %}
+{% endwith %}
+{% endblock %}

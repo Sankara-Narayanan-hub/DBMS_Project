@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome, {{ session.email }}</h2>
+
+        <h3>Your Borrowed Books:</h3>
+        {% if borrowed_books %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Book ID</th>
+                        <th>Title</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in borrowed_books %}
+                        <tr>
+                            <td>{{ book[-2] }}</td>
+                            <td>{{ book[-1] }}</td>
+                            <td>
+                                <form method="post" action="{{ url_for('returnb') }}">
+                                    <input type="hidden" name="book_id" value="{{ book[-2] }}">
+                                    <input type="submit" value="Return Book" class="btn btn-danger">
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No books borrowed yet.</p>
+        {% endif %}
+
+        <hr>
+
+        <h3>Search for Books:</h3>
+        <form action="{{ url_for('index') }}" method="POST">
+            <input type="text" name="sname" class="form-control" placeholder="Search by book title">
+            <br>
+            <input type="submit" class="btn btn-primary" value="Search">
+        </form>
+
+        {% if search_results %}
+            <h4>Search Results:</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Book ID</th>
+                        <th>Title</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in search_results %}
+                        <tr>
+                            <td>{{ book[-2] }}</td>
+                            <td>{{ book[-1] }}</td>
+                            <td>
+                                <form method="post" action="{{ url_for('get') }}">
+                                    <input type="hidden" name="book_id" value="{{ book[-2] }}">
+                                    <input type="submit" value="Get Book" class="btn btn-success">
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        {% with messages = get_flashed_messages() %}
+           {% if messages %}
+              <div class="alert alert-info">
+                 {% for message in messages %}
+                    {{ message }}
+                 {% endfor %}
+              </div>
+           {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>
